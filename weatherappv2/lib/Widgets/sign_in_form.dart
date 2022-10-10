@@ -38,6 +38,7 @@ class SignInForm extends StatelessWidget {
   );
 
   Widget buildMail() => TextFormField(
+    key: const Key('mailFormKey'),
     maxLines: 1,
     initialValue: mail,
     style: const TextStyle(
@@ -54,6 +55,7 @@ class SignInForm extends StatelessWidget {
   );
 
   Widget buildPassword() => TextFormField(
+    key: const Key('passwordFormKey'),
     obscureText: true,
     maxLines: 1,
     initialValue: password,

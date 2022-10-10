@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:weatherappv2/API/WeatherMapAPI.dart';
+import 'package:provider/provider.dart';
 import 'package:weatherappv2/Models/Weather.dart';
+import 'package:weatherappv2/Notifier/WeatherChangeNotifier.dart';
 import 'package:weatherappv2/Routes/routes.dart';
 import 'package:weatherappv2/Widgets/weather_card_item.dart';
 
@@ -16,9 +17,17 @@ class WeatherList extends StatefulWidget {
 
 class _WeatherState extends State<WeatherList> {
     late String username;
+
+    late List<WeatherCardItem> listItems;
+
   @override
   void initState() {
-    username = FirebaseAuth.instance.currentUser!.displayName!;
+    if (FirebaseAuth.instance.currentUser != null) {
+      username = FirebaseAuth.instance.currentUser!.displayName!;
+    } else {
+      username = 'plop';
+    }
+    Future.microtask(() => context.read<WeatherChangeNotifier>().getWeathers());
     super.initState();
   }
 
@@ -50,30 +59,22 @@ class _WeatherState extends State<WeatherList> {
     );
   }
 
-  Widget buildList() {
-    return FutureBuilder<List<Weather>>(
-      builder: (context, AsyncSnapshot<List<Weather>> snapshot){
-        if (snapshot.hasData) {
-          List<WeatherCardItem> listCard = getListItem(snapshot.requireData);
 
-          return ListView.builder(
-              itemCount: listCard.length,
-              itemBuilder: (context, index) {
-                final item = listCard[index];
-                return item.buildCard(context);
-              }
-          );
-        } else {
-          return const SizedBox(
-              height: double.infinity,
-              width: double.infinity,
-              child: Center(
-                child: CircularProgressIndicator(),
-              )
-          );
+  Widget buildList() {
+    return Consumer<WeatherChangeNotifier>(
+      builder: (context, notifier, child) {
+        if (notifier.isLoading) {
+          return const Center(child: CircularProgressIndicator());
         }
-      },
-      future: WeatherMapAPI.getForecast(),
+        return ListView.builder(
+            itemCount: notifier.weathers.length,
+            itemBuilder: (_, index) {
+              final weather = notifier.weathers[index];
+              return WeatherCardItem(weather).buildCard(context);
+            },
+        );
+      }
+
     );
   }
 

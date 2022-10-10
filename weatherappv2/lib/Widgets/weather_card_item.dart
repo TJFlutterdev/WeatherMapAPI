@@ -14,7 +14,16 @@ class WeatherCardItem {
         color: Colors.white,
         child: Row(
           children: [
-            Image.network("http://openweathermap.org/img/wn/${weather.weatherIconId}@2x.png"),
+            Image.network(
+              weather.weatherIconHttp,
+              fit: BoxFit.cover,
+              loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

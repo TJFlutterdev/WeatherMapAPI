@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:weatherappv2/Routes/routes.dart';
@@ -15,6 +17,7 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final _formKey = GlobalKey<FormState>();
+  late StreamSubscription<User?> _sub;
   String mail = '';
   String password = '';
   String username = '';
@@ -22,12 +25,18 @@ class _SignInState extends State<SignIn> {
 
   @override
   void initState() {
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _sub = FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         Navigator.pushReplacementNamed(context, Routes.weatherList);
       }
     });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
   }
 
   @override
@@ -78,6 +87,7 @@ class _SignInState extends State<SignIn> {
     final isFormValid = mail.isNotEmpty && password.isNotEmpty && mail.isMailValid();
 
     return TextButton(
+      key: const Key('signButton'),
       onPressed: isFormValid ? processLogin : null,
       style: TextButton.styleFrom(
           padding: const EdgeInsets.only(left: 32,top: 16, right: 32,bottom: 16),
