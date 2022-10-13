@@ -55,6 +55,7 @@ class _SignUpState extends State<SignUp> {
     final isFormValid = mail.isNotEmpty && password.isNotEmpty && username.isNotEmpty && mail.isMailValid();
 
     return TextButton(
+      key: const Key('signUpButtonFormKey'),
       onPressed: isFormValid ? processSignUp : null,
       style: TextButton.styleFrom(
           padding: const EdgeInsets.only(left: 32,top: 16, right: 32,bottom: 16),

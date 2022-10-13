@@ -87,7 +87,7 @@ class _SignInState extends State<SignIn> {
     final isFormValid = mail.isNotEmpty && password.isNotEmpty && mail.isMailValid();
 
     return TextButton(
-      key: const Key('signButton'),
+      key: const Key('signInButtonFormKey'),
       onPressed: isFormValid ? processLogin : null,
       style: TextButton.styleFrom(
           padding: const EdgeInsets.only(left: 32,top: 16, right: 32,bottom: 16),

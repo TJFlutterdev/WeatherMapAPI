@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:mocktail_image_network/mocktail_image_network.dart';
@@ -10,7 +9,9 @@ import 'package:weatherappv2/Notifier/weather_change_notifier.dart';
 import 'package:weatherappv2/Pages/weather_list.dart';
 import 'package:weatherappv2/Services/weather_service.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_core_platform_interface/firebase_core_platform_interface.dart';
+
+import 'firebase_setup_mock.dart';
+
 
 class MockWeatherService extends Mock implements WeatherService {}
 
@@ -45,11 +46,26 @@ void main() {
   });
 
   final List<Weather> weatherFromService = [
-    Weather(temp: 17,description: 'description 1', dateTime: DateTime.now(), weatherIconHttp:'http://openweathermap.org/img/wn/01d@2x.png'),
-    Weather(temp: 18,description: 'description 2', dateTime: DateTime.now(), weatherIconHttp:'http://openweathermap.org/img/wn/02d@2x.png'),
-    Weather(temp: 19,description: 'description 3', dateTime: DateTime.now(), weatherIconHttp:'http://openweathermap.org/img/wn/03d@2x.png'),
-    Weather(temp: 20,description: 'description 4', dateTime: DateTime.now(), weatherIconHttp:'http://openweathermap.org/img/wn/04d@2x.png'),
-    Weather(temp: 21,description: 'description 5', dateTime: DateTime.now(), weatherIconHttp:'http://openweathermap.org/img/wn/05d@2x.png'),
+    Weather(temp: 17,
+        description: 'description 1',
+        dateTime: DateTime.now(),
+        weatherIconHttp: 'http://openweathermap.org/img/wn/01d@2x.png'),
+    Weather(temp: 18,
+        description: 'description 2',
+        dateTime: DateTime.now(),
+        weatherIconHttp: 'http://openweathermap.org/img/wn/02d@2x.png'),
+    Weather(temp: 19,
+        description: 'description 3',
+        dateTime: DateTime.now(),
+        weatherIconHttp: 'http://openweathermap.org/img/wn/03d@2x.png'),
+    Weather(temp: 20,
+        description: 'description 4',
+        dateTime: DateTime.now(),
+        weatherIconHttp: 'http://openweathermap.org/img/wn/04d@2x.png'),
+    Weather(temp: 21,
+        description: 'description 5',
+        dateTime: DateTime.now(),
+        weatherIconHttp: 'http://openweathermap.org/img/wn/05d@2x.png'),
   ];
 
   void arrangeWeatherServiceReturns5Weathers() {
@@ -97,27 +113,12 @@ void main() {
         await tester.pumpWidget(createWidgetUnderTest());
         await tester.pump(const Duration(milliseconds: 500));
 
-        expect(find.byKey(const Key('WeatherListProgressIndicator')), findsOneWidget);
+        expect(find.byKey(const Key('WeatherListProgressIndicator')),
+            findsOneWidget);
 
         await tester.pump(const Duration(seconds: 3));
       });
     }
     ,
   );
-
-}
-
-typedef Callback = void Function(MethodCall call);
-
-void setupFirebaseAuthMocks([Callback? customHandlers]) {
-  TestWidgetsFlutterBinding.ensureInitialized();
-
-  setupFirebaseCoreMocks();
-}
-
-Future<T> neverEndingFuture<T>() async {
-  // ignore: literal_only_boolean_expressions
-  while (true) {
-    await Future.delayed(const Duration(minutes: 5));
-  }
 }

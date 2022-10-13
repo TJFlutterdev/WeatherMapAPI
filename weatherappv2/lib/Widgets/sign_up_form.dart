@@ -11,9 +11,9 @@ class SignUpForm extends StatelessWidget {
 
   const SignUpForm({
     Key? key,
-    this.username = 'Username',
-    this.mail = 'Mail',
-    this.password = 'Password',
+    this.username = '',
+    this.mail = '',
+    this.password = '',
     required this.onChangeUsername,
     required this.onChangeMail,
     required this.onChangePassword,
@@ -37,6 +37,7 @@ class SignUpForm extends StatelessWidget {
         ),
         const SizedBox(height: 8,),
         buildMail(),
+        const SizedBox(height: 8,),
         Container(
           alignment: Alignment.topLeft,
           child: const Text('Password', style: TextStyle(fontSize: 18, color: Colors.grey),),
@@ -48,6 +49,7 @@ class SignUpForm extends StatelessWidget {
   );
 
   Widget buildUsername() => TextFormField(
+    key: const Key('signUpUsernameFormKey'),
     maxLines: 1,
     initialValue: username,
     style: const TextStyle(
@@ -64,6 +66,7 @@ class SignUpForm extends StatelessWidget {
   );
 
   Widget buildMail() => TextFormField(
+    key: const Key('signUpMailFormKey'),
     maxLines: 1,
     initialValue: mail,
     style: const TextStyle(
@@ -80,6 +83,7 @@ class SignUpForm extends StatelessWidget {
   );
 
   Widget buildPassword() => TextFormField(
+    key: const Key('signUpPasswordFormKey'),
     obscureText: true,
     maxLines: 1,
     initialValue: password,
