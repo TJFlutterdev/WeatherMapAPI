@@ -23,7 +23,3 @@ class WeatherChangeNotifier extends ChangeNotifier {
     notifyListeners();
   }
 }
-
-class WeatherIconChangeNotifier extends ChangeNotifier {
-
-}
