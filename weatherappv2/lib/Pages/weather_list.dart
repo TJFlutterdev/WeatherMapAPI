@@ -1,14 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weatherappv2/Models/Weather.dart';
-import 'package:weatherappv2/Notifier/WeatherChangeNotifier.dart';
+import 'package:weatherappv2/Models/weather.dart';
+import 'package:weatherappv2/Notifier/weather_change_notifier.dart';
 import 'package:weatherappv2/Routes/routes.dart';
 import 'package:weatherappv2/Widgets/weather_card_item.dart';
 
 class WeatherList extends StatefulWidget {
+  final User currentUser;
 
-  const WeatherList({Key? key}) : super(key: key);
+  const WeatherList({Key? key, required this.currentUser}) : super(key: key);
 
   @override
   _WeatherState createState() => _WeatherState();
@@ -22,11 +23,7 @@ class _WeatherState extends State<WeatherList> {
 
   @override
   void initState() {
-    if (FirebaseAuth.instance.currentUser != null) {
-      username = FirebaseAuth.instance.currentUser!.displayName!;
-    } else {
-      username = 'plop';
-    }
+    username = widget.currentUser.displayName!;
     Future.microtask(() => context.read<WeatherChangeNotifier>().getWeathers());
     super.initState();
   }
@@ -64,7 +61,7 @@ class _WeatherState extends State<WeatherList> {
     return Consumer<WeatherChangeNotifier>(
       builder: (context, notifier, child) {
         if (notifier.isLoading) {
-          return const Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator(key: Key('WeatherListProgressIndicator'),));
         }
         return ListView.builder(
             itemCount: notifier.weathers.length,

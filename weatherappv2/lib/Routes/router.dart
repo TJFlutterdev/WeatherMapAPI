@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:weatherappv2/Notifier/WeatherChangeNotifier.dart';
+import 'package:weatherappv2/Notifier/weather_change_notifier.dart';
 import 'package:weatherappv2/Pages/sign_in.dart';
 import 'package:weatherappv2/Pages/sign_up.dart';
 import 'package:weatherappv2/Pages/weather_list.dart';
@@ -27,7 +27,7 @@ class MyRouter {
       case Routes.weatherList:
         return MaterialPageRoute(builder: (_) => ChangeNotifierProvider(
           create: (_) => WeatherChangeNotifier(WeatherService()),
-          child: const WeatherList(),
+          child: WeatherList(currentUser: FirebaseAuth.instance.currentUser!,),
         ));
       default:
         return MaterialPageRoute(builder: (_) => const SignIn());

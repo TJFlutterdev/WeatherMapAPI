@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 import 'dart:convert';
 
-import 'package:weatherappv2/Models/Weather.dart';
+import 'package:weatherappv2/Models/weather.dart';
 
 class WeatherService {
 
@@ -13,7 +13,6 @@ class WeatherService {
   static const String parisLon = "2.3522219";
 
   Future<List<Weather>> getWeathers() async {
-    await Future.delayed(const Duration(seconds: 5));
     List<Weather> weatherList = [];
     var url = Uri.parse(
         "${weatherMapApiHttp}lat=$parisLat&lon=$parisLon&appid=$weatherMapApi&lang=fr&units=metric");

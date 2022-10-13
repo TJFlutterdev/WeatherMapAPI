@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:weatherappv2/Models/Weather.dart';
+import 'package:weatherappv2/Models/weather.dart';
 import 'package:weatherappv2/Tools/string_extension.dart';
 
 class WeatherCardItem {
