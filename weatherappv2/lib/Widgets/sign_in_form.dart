@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weatherappv2/Tools/string_extension.dart';
+import 'package:weatherappv2/Widgets/form_separator.dart';
 
 class SignInForm extends StatelessWidget {
   final String? mail;
@@ -20,17 +22,11 @@ class SignInForm extends StatelessWidget {
     padding: const EdgeInsets.all(32),
     child: Column(
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text('Mail', style: TextStyle(fontSize: 18, color: Colors.grey),),
-        ),
+        FormSeparator.buildSeparator('Mail'),
         const SizedBox(height: 8,),
         buildMail(),
         const SizedBox(height: 8,),
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text('Password', style: TextStyle(fontSize: 18, color: Colors.grey),),
-        ),
+        FormSeparator.buildSeparator('Password'),
         const SizedBox(height: 8,),
         buildPassword(),
       ],
@@ -50,7 +46,7 @@ class SignInForm extends StatelessWidget {
       border: OutlineInputBorder(),
     ),
     validator: (mail) =>
-    mail != null && mail.isEmpty ? 'The mail cannot be empty' : null,
+    mail != null && mail.isNotEmpty && mail.isMailValid() ? 'The mail cannot be empty' : null,
     onChanged: onChangeMail,
   );
 

@@ -18,7 +18,6 @@ class MockWeatherService extends Mock implements WeatherService {}
 class MockFirebaseAuth extends Mock implements FirebaseAuth {
 
   @override
-  // TODO: implement currentUser
   MockUser? get currentUser => MockUser();
 
 }
@@ -26,7 +25,6 @@ class MockFirebaseAuth extends Mock implements FirebaseAuth {
 class MockUser extends Mock implements User {
 
   @override
-  // TODO: implement displayName
   String? get displayName => 'Tjouin';
 
 }

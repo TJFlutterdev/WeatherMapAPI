@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weatherappv2/Tools/string_extension.dart';
+import 'package:weatherappv2/Widgets/form_separator.dart';
 
 class SignUpForm extends StatelessWidget {
   final String? username;
@@ -24,24 +26,15 @@ class SignUpForm extends StatelessWidget {
     padding: const EdgeInsets.all(32),
     child: Column(
       children: [
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text('Username', style: TextStyle(fontSize: 18, color: Colors.grey),),
-        ),
+        FormSeparator.buildSeparator('Username'),
         const SizedBox(height: 8,),
         buildUsername(),
         const SizedBox(height: 8,),
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text('Mail', style: TextStyle(fontSize: 18, color: Colors.grey),),
-        ),
+        FormSeparator.buildSeparator('Mail'),
         const SizedBox(height: 8,),
         buildMail(),
         const SizedBox(height: 8,),
-        Container(
-          alignment: Alignment.topLeft,
-          child: const Text('Password', style: TextStyle(fontSize: 18, color: Colors.grey),),
-        ),
+        FormSeparator.buildSeparator('Password'),
         const SizedBox(height: 8,),
         buildPassword(),
       ],
@@ -61,7 +54,7 @@ class SignUpForm extends StatelessWidget {
       border: OutlineInputBorder(),
     ),
     validator: (mail) =>
-    mail != null && mail.isEmpty ? 'The username cannot be empty' : null,
+    mail != null && mail.isEmpty && mail.isMailValid() ? 'The username cannot be empty' : null,
     onChanged: onChangeUsername,
   );
 
